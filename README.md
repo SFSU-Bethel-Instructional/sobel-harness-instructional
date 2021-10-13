@@ -115,7 +115,7 @@ augmented 2x in each direction
 
 Source file:  Zebra_July_2008-1.jpg, obtained from Wikimedia commons, https://commons.wikimedia.org/wiki/File:Zebra_July_2008-1.jpg
 
-# python display routines
+# python display script
 
 imshow.py - a python script to display the raw 8-bit pixel values in grayscale. 
 
