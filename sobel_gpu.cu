@@ -155,9 +155,8 @@ main (int ac, char *av[])
 
    // set up to run the kernel
    int nBlocks=1, nThreadsPerBlock=256;
-   nBlocks=80 * 16; // 80 SMTs * 4 active thread warps * 4 warps  (Volta)
 
-   // insert your code here to set a different number of thread blocks or # of threads per block
+   // ADD CODE HERE: insert your code here to set a different number of thread blocks or # of threads per block
 
 
 
