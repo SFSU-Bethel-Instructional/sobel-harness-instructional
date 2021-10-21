@@ -19,13 +19,13 @@
 
 // this is the original laughing zebra image
 //static char input_fname[] = "../data/zebra-gray-int8";
-//static int data_dims[2] = {3556, 2573};
+//static int data_dims[2] = {3556, 2573}; // width=ncols, height=nrows
 //char output_fname[] = "../data/processed-raw-int8-cpu.dat";
 
 // this one is a 4x augmentation of the laughing zebra
 static char input_fname[] = "../data/zebra-gray-int8-4x";
-static int data_dims[2] = {7112, 5146};
-char output_fname[] = "../data/processed-raw-int8-4x-omp-offload.dat";
+static int data_dims[2] = {7112, 5146}; // width=ncols, height=nrows
+char output_fname[] = "../data/processed-raw-int8-4x-cpu.dat";
 
 
 // see https://en.wikipedia.org/wiki/Sobel_operator
@@ -35,7 +35,7 @@ char output_fname[] = "../data/processed-raw-int8-4x-omp-offload.dat";
 //
 // input: float *s - the source data
 // input: int i,j - the location of the pixel in the source data where we want to center our sobel convolution
-// input: int rows, cols: the dimensions of the input and output image buffers
+// input: int nrows, ncols: the dimensions of the input and output image buffers
 // input: float *gx, gy:  arrays of length 9 each, these are logically 3x3 arrays of sobel filter weights
 //
 // this routine computes Gx=gx*s centered at (i,j), Gy=gy*s centered at (i,j),
@@ -44,7 +44,7 @@ char output_fname[] = "../data/processed-raw-int8-4x-omp-offload.dat";
 // see https://en.wikipedia.org/wiki/Sobel_operator
 //
 float
-sobel_filtered_pixel(float *s, int i, int j , int width, int height, float *gx, float *gy)
+sobel_filtered_pixel(float *s, int i, int j , int ncols, int nrows, float *gx, float *gy)
 {
 
    float t=0.0;
@@ -62,12 +62,12 @@ sobel_filtered_pixel(float *s, int i, int j , int width, int height, float *gx, 
 //
 // input: float *s - the source data, size=rows*cols
 // input: int i,j - the location of the pixel in the source data where we want to center our sobel convolution
-// input: int rows, cols: the dimensions of the input and output image buffers
+// input: int nrows, ncols: the dimensions of the input and output image buffers
 // input: float *gx, gy:  arrays of length 9 each, these are logically 3x3 arrays of sobel filter weights
 // output: float *d - the buffer for the output, size=rows*cols.
 //
 void
-do_sobel_filtering(float *in, float *out, int dims[2])
+do_sobel_filtering(float *in, float *out, int ncols, int nrows)
 {
    float Gx[] = {1.0, 0.0, -1.0, 2.0, 0.0, -2.0, 1.0, 0.0, -1.0};
    float Gy[] = {1.0, 2.0, 1.0, 0.0, 0.0, 0.0, -1.0, -2.0, -1.0};
@@ -75,8 +75,8 @@ do_sobel_filtering(float *in, float *out, int dims[2])
    off_t out_indx = 0;
    int width, height, nvals;
 
-   width=dims[0];
-   height=dims[1];
+   width=ncols;
+   height=nrows;
    nvals=width*height;
 
 // define the data mapping from the host to the device
@@ -140,7 +140,7 @@ main (int ac, char *av[])
    // do the processing =======================
    std::chrono::time_point<std::chrono::high_resolution_clock> start_time = std::chrono::high_resolution_clock::now();
 
-   do_sobel_filtering(in_data_floats, out_data_floats, data_dims);
+   do_sobel_filtering(in_data_floats, out_data_floats, data_dims[0], data_dims[1]);
 
    std::chrono::time_point<std::chrono::high_resolution_clock> end_time = std::chrono::high_resolution_clock::now();
 

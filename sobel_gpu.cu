@@ -20,14 +20,14 @@
 // dimensions [columns, rows]
 
 // this is the original laughing zebra image
-// static char input_fname[] = "../data/zebra-gray-int8";
-// static int data_dims[2] = {3556, 2573};
-// char output_fname[] = "../data/processed-raw-int8-gpu.dat";
+//static char input_fname[] = "../data/zebra-gray-int8";
+//static int data_dims[2] = {3556, 2573}; // width=ncols, height=nrows
+//char output_fname[] = "../data/processed-raw-int8-cpu.dat";
 
 // this one is a 4x augmentation of the laughing zebra
 static char input_fname[] = "../data/zebra-gray-int8-4x";
-static int data_dims[2] = {7112, 5146};
-char output_fname[] = "../data/processed-raw-int8-4x-gpu.dat";
+static int data_dims[2] = {7112, 5146}; // width=ncols, height=nrows
+char output_fname[] = "../data/processed-raw-int8-4x-cpu.dat";
 
 // see https://stackoverflow.com/questions/14038589/what-is-the-canonical-way-to-check-for-errors-using-the-cuda-runtime-api
 // macro to check for cuda errors. basic idea: wrap this macro around every cuda call
@@ -47,7 +47,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 // perform the sobel filtering at a given i,j location
 // input: float *s - the source data
 // input: int i,j - the location of the pixel in the source data where we want to center our sobel convolution
-// input: int rows, cols: the dimensions of the input and output image buffers
+// input: int nrows, ncols: the dimensions of the input and output image buffers
 // input: float *gx, gy:  arrays of length 9 each, these are logically 3x3 arrays of sobel filter weights
 //
 // this routine computes Gx=gx*s centered at (i,j), Gy=gy*s centered at (i,j),
@@ -56,7 +56,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 // see https://en.wikipedia.org/wiki/Sobel_operator
 //
 __device__ float
-sobel_filtered_pixel(float *s, int i, int j , int rows, int cols, float *gx, float *gy)
+sobel_filtered_pixel(float *s, int i, int j , int ncols, int nrows, float *gx, float *gy)
 {
 
    float t=0.0;
@@ -76,7 +76,7 @@ sobel_filtered_pixel(float *s, int i, int j , int rows, int cols, float *gx, flo
 //
 // input: float *s - the source data, size=rows*cols
 // input: int i,j - the location of the pixel in the source data where we want to center our sobel convolution
-// input: int rows, cols: the dimensions of the input and output image buffers
+// input: int nrows, ncols: the dimensions of the input and output image buffers
 // input: float *gx, gy:  arrays of length 9 each, these are logically 3x3 arrays of sobel filter weights
 // output: float *d - the buffer for the output, size=rows*cols.
 //
@@ -86,8 +86,8 @@ __global__ void
 sobel_kernel_gpu(float *s,  // source image pixels
       float *d,  // dst image pixels
       int n,  // size of image cols*rows,
-      int rows,
-      int cols,
+      int nrows,
+      int ncols,
       float *gx, float *gy) // gx and gy are stencil weights for the sobel filter
 {
    // ADD CODE HERE: insert your code here that iterates over every (i,j) of input,  makes a call
