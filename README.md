@@ -4,8 +4,8 @@ This directory contains the code harnesses for doing three different implementat
 filter. The three implementations are:
 
 * CPU only in C++, with your added OpenMP parallelism
-* GPU only in CUDA
-* CPU n C++ with OpenMP Device Offload for running on the GPU
+* GPU in CUDA
+* GPU in C++ with OpenMP Device Offload for running a kernel on the GPU
 
 # Build instructions - general
 
