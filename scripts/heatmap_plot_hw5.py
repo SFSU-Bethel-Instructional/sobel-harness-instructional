@@ -1,3 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+'''
+@author: wes
+Created: Thu Sep 30 05:51:28 PDT 2021
+
+Description: this code generates a 2D "heatmap" style plot using sample data that
+is hard-coded into the code.
+
+Inputs: none, all problem parameters are hard-coded.
+
+Outputs: a plot showing the heatmap, displayed to the screen
+
+Dependencies: matplotlib, numpy
+
+Assumptions: Developed and Tested with Python 3.8.8 on MacOS 11.6
+'''
+
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -39,3 +57,5 @@ ax.set_xlabel('Block Sizes')
 fig.colorbar(im, ax=ax)
 fig.tight_layout()
 plt.show()
+
+# EOF
