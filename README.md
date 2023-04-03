@@ -9,33 +9,20 @@ filter. The three implementations are:
 
 # Build instructions - general
 
-This assignment requires use of some very specific compilers and environmental settings, as follows:
+This assignment requires use of the Nvidia compilers as follows:
 
-% module purge  
-% module load cmake  
-% module load cgpu  
-% module load PrgEnv-llvm/13_rc3  
+> module load PrgEnv-nvidia
 
-Then, if you're using bash:  
-
-% export CXX=clang++  
-
-Or if you're using csh/tcsh:  
-
-% setenv CXX clang++  
-
-As an alternative,  these module commands are packaged up in a shell file in this distribution that you can 
-just source:  
-
-% source scripts/modules_for_cgpu.sh
 
 Then, once your environment is set up, then:
 
-% mkdir build  
-% cd build  
-% cmake ../  
+> mkdir build  
+> cd build  
+> CC=\$(which cc) CXX=\$(which CC) cmake ../  
+> make
 
-It is OK to do builds on the login node once you have set up the environment above.
+It is OK to do builds on the login node once you have set up the environment above.  
+All code should be executed on a GPU node.
 
 # Comments about all the codes
 
@@ -68,8 +55,8 @@ You can verify your result by displaying the image with the python script provid
 
 This will display the results of the "correct results" of the sobel filter applied to the default input dataset, zebra-gray-int8-4x. 
 
-Note: if you're running this script from Cori, please be sure that you:
-* ssh -Y user@cori.nersc.gov when you connect so that X connections are tunneled through ssh, and the image will actually display remotely, and
+Note: if you're running this script from Perlmutter, please be sure that you:
+* ssh -Y user@perlmutter-p1.nersc.gov when you connect so that X connections are tunneled through ssh, and the image will actually display remotely, and
 * do a %module load python    otherwise you will be accessing an outdated version of python.
 
 # Adding your code to the sobel_gpu.cu
