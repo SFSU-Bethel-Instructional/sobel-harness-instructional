@@ -11,15 +11,17 @@ filter. The three implementations are:
 
 This assignment requires use of the Nvidia compilers as follows:
 
-> module load PrgEnv-nvidia
+    module load PrgEnv-nvidia
 
 
 Then, once your environment is set up, then:
 
-> mkdir build  
-> cd build  
-> CC=\$(which cc) CXX=\$(which CC) cmake ../  
-> make
+    mkdir build  
+    cd build  
+    CC=\$(which cc) 
+    CXX=\$(which CC) 
+    cmake ../  
+    make
 
 It is OK to do builds on the login node once you have set up the environment above.  
 All code should be executed on a GPU node.
