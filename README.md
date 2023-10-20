@@ -12,14 +12,13 @@ filter. The three implementations are:
 This assignment requires use of the Nvidia compilers as follows:
 
     module load PrgEnv-nvidia
-
+    export CC=cc
+    export CXX=CC 
 
 Then, once your environment is set up, then:
 
     mkdir build  
     cd build  
-    export CC=cc
-    export CXX=CC 
     cmake ../  
     make
 
@@ -51,10 +50,11 @@ implement loop parallelism over the one or two for loops that iterate over the i
 
 For all programs, when you run the code, it reads from a hard-coded data file, and writes to a hard-coded output file, also located in the data subdirectory. Each of the 3 different codes writes to a different named file, e.g., processed-raw-int8-4x-cpu.dat, processed-raw-int8-4x-gpu.dat, etc.
 
-You can verify your result by displaying the image with the python script provided. For example,
+You can verify your result by displaying the image with the python script provided. For example, from the sobel-harness-instructional directory,
 
     module load python
-    python scripts/imshow.py processed-raw-int8-4x-gpu.dat 7112 5146
+    python scripts/imshow.py data/zebra-gray-int8-4 7112 5146  # display the source image
+    python scripts/imshow.py data/processed-raw-int8-4x-gpu.dat 7112 5146  # display result from your code
 
 This will display the results of the "correct results" of the sobel filter applied to the default input dataset, zebra-gray-int8-4x. 
 
