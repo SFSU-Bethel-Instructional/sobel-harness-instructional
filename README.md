@@ -18,8 +18,8 @@ Then, once your environment is set up, then:
 
     mkdir build  
     cd build  
-    CC=\$(which cc) 
-    CXX=\$(which CC) 
+    export CC=cc
+    export CXX=CC 
     cmake ../  
     make
 
@@ -53,13 +53,14 @@ For all programs, when you run the code, it reads from a hard-coded data file, a
 
 You can verify your result by displaying the image with the python script provided. For example,
 
-% python scripts/imshow.py processed-raw-int8-4x-gpu.dat 7112 5146
+    module load python
+    python scripts/imshow.py processed-raw-int8-4x-gpu.dat 7112 5146
 
 This will display the results of the "correct results" of the sobel filter applied to the default input dataset, zebra-gray-int8-4x. 
 
 Note: if you're running this script from Perlmutter, please be sure that you:
 * ssh -Y user@perlmutter-p1.nersc.gov when you connect so that X connections are tunneled through ssh, and the image will actually display remotely, and
-* do a %module load python    otherwise you will be accessing an outdated version of python.
+* do a module load python    otherwise you will be accessing an outdated version of python.
 
 # Adding your code to the sobel_gpu.cu
 
@@ -109,6 +110,8 @@ Source file:  Zebra_July_2008-1.jpg, obtained from Wikimedia commons, https://co
 imshow.py - a python script to display the raw 8-bit pixel values in grayscale. 
 
 Usage:  
+
     python imshow.py filename-of-raw-8bit-bytes int-cols-width int-rows-height
 
 
+# eof
