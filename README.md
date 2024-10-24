@@ -19,7 +19,7 @@ Then, once your environment is set up, then:
 
     mkdir build  
     cd build  
-    cmake ../  
+    cmake ../  -Wno-dev
     make
 
 It is OK to do builds on the login node once you have set up the environment above.  
