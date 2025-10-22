@@ -3,8 +3,13 @@ project(sobel_harness LANGUAGES CXX CUDA)
 
 # 19 oct 2023: we are assuming the use of the NVHPC compiler on Perlmutter
 # the compilation flags baked in below reflect that assumption
-# set up your environment on Perlmutter with:
+# set up your environment on Perlmutter@NERSC with:
 # module load PrgEnv-nvidia
+# then
+# module load PrgEnv-nvidia
+# export CC=cc
+# export CXX=CC 
+
 
 set(CMAKE_BUILD_TYPE "Release")
 
