@@ -60,7 +60,7 @@ This will display the results of the "correct results" of the sobel filter appli
 
 Note: if you're running this script from Perlmutter, please be sure that you:
 * ssh -Y user@perlmutter-p1.nersc.gov when you connect so that X connections are tunneled through ssh, and the image will actually display remotely, and
-* do a module load python    otherwise you will be accessing an outdated version of python.
+* Once on Perlmutter, do a module load python    otherwise you will be accessing an outdated version of python.
 
 # Adding your code to the sobel_gpu.cu
 
@@ -71,7 +71,7 @@ Here, you will need to add code to sobel_filtered_pixel() and sobel_kernel_gpu()
 For the sobel_kernel_gpu() function, you will need to think like a CUDA coder and look at CUDA variables --  blockIdx, blockDim, threadIdx, blockDim and gridDim --  to compute the index/stride to use in striding through the source 
 array, calling the sobel_filtered_pixel() function at each location to do the work.
 
-You will probably use a processing motif here very similar to what we did in Lab#2, vector addition in CUDA.
+You will probably use a processing motif here very similar to what we did in Lab#1, vector addition in CUDA.
 
 # Adding code to the sobel_cpu_omp_offload.cpp
 
@@ -90,7 +90,7 @@ around those loops to iterate over very (i,j) location of input. You may also wi
 
 You will also need to add one more item to the line reading #pragma omp target data (...). As written, that line of code maps the input data and parameters to the device, but it does not have a map() statement to pull the data back from the device. You need to add that one more item to this line in order to have the results come back from the GPU. 
 
-For additional reading, slide #22 on this URL may be helpful: https://www.nersc.gov/assets/Uploads/OpenMPTrainingShortAdvanced.pdf
+For additional reading, have a look at this collection of slides/material from a 2024 NERSC OpenMP training session, which does include information about OpenMP device offload on NERSC platforms: https://github.com/NERSC/openmp-series-2024
 
 
 # Information about data files
